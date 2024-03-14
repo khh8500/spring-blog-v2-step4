@@ -21,7 +21,7 @@ public class Board {
     private String content;
 
     //@JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // 내 것만 들고오기 / eager은 연관된 것을 들고오기
     private User user; // db -> user_id
 
     @CreationTimestamp // pc -> db (날짜주입)
@@ -36,3 +36,4 @@ public class Board {
         this.createdAt = createdAt;
     }
 }
+
