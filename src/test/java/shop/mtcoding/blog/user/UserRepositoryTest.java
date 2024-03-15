@@ -13,6 +13,31 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
+    public void updateById_test(){
+        // given
+        int id = 1;
+        String password = "1234";
+        String email = "bori@nate.com";
+    
+        // when
+        userRepository.updateById(id, password, email);
+    
+        // then
+    }
+    
+    @Test
+    public void findById_test(){
+        
+        // given
+        int id = 1;
+
+        // when
+        userRepository.findById(id);
+
+        // then
+    }
+
+    @Test
     public void findByUsernameAndPassword_test() {
         // given
         String username = "ssar";
