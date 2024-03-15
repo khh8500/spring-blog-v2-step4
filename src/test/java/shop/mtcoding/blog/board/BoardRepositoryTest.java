@@ -1,5 +1,6 @@
 package shop.mtcoding.blog.board;
 
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,6 +14,23 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private EntityManager em;
+
+    @Test
+    public void updateById_test(){
+        // given
+        int id = 1;
+        String title = "title1";
+        String content = "content1";
+
+        // when
+        boardRepository.updateById(id, title, content);
+        em.flush();
+
+        // then
+    }
 
     @Test
     public void deleteById_test(){
