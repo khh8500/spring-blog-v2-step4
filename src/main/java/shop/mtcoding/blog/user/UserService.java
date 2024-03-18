@@ -3,6 +3,7 @@ package shop.mtcoding.blog.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
+import shop.mtcoding.blog._core.errors.exception.Exception401;
 
 import java.util.Optional;
 
@@ -11,6 +12,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserJPARepository userJPARepository;
+
+    public User 로그인(UserRequest.LoginDTO reqDTO){
+        User sessionUser = userJPARepository.findByUsernameAndPassword(reqDTO.getUsername(), reqDTO.getPassword())
+                .orElseThrow(() -> new Exception401("인증되지 않았습니다"));
+        return sessionUser;
+    }
 
     public void 회원가입(UserRequest.JoinDTO reqDTO){ // ssar
         // 1. 유효성 검사 (컨트롤러 책임)
