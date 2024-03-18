@@ -1,5 +1,7 @@
 package shop.mtcoding.blog.board;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +23,15 @@ public class Board {
     private String content;
 
     //@JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY) // 내 것만 들고오기 / eager은 연관된 것을 들고오기
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user; // db -> user_id
 
     @CreationTimestamp // pc -> db (날짜주입)
     private Timestamp createdAt;
+
+    @Transient // 테이블 생성이 안됨
+    private boolean isOwner;
+
 
     @Builder
     public Board(Integer id, String title, String content, User user, Timestamp createdAt) {
@@ -36,4 +42,3 @@ public class Board {
         this.createdAt = createdAt;
     }
 }
-
