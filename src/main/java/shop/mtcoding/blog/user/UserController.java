@@ -17,13 +17,12 @@ import shop.mtcoding.blog._core.errors.exception.Exception401;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
     private final HttpSession session;
 
     @PostMapping("/user/update")
     public String update(UserRequest.UpdateDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
-        User newsessionUser = userRepository.updateById(sessionUser.getId(), reqDTO.getPassword(), reqDTO.getEmail());
+        User newsessionUser = userService.회원수정(sessionUser.getId(),reqDTO);
         session.setAttribute("sessionUser", newsessionUser);
         return "redirect:/";
     }
@@ -54,8 +53,7 @@ public class UserController {
     @GetMapping("/user/update-form")
     public String updateForm(HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-
-        User user = userRepository.findById(sessionUser.getId());
+        User user = userService.회원수정폼(sessionUser.getId());
         request.setAttribute("user", user);
         return "user/update-form";
     }
