@@ -19,6 +19,17 @@ public class BoardJPARepositoryTest {
     @Autowired
     private EntityManager em;
 
+    @Test
+    public void findByIdJoinUserAndReplies_test(){
+        // given
+        int id = 4;
+
+        // when
+        Board board = boardJPARepository.findByIdJoinUserAndReplies(id).get();
+
+        // then
+    }
+
     // save
     @Test
     public void save_test() {
@@ -61,7 +72,7 @@ public class BoardJPARepositoryTest {
         int id = 1;
 
         // when
-        Board board = boardJPARepository.findByIdJoinUser(id);
+        Board board = boardJPARepository.findByIdJoinUser(id).get();
 
         // then
         System.out.println("findByIdJoinUser_test : "+board.getTitle());
