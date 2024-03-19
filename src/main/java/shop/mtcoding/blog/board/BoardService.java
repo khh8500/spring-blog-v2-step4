@@ -16,14 +16,14 @@ public class BoardService {
 
     private final BoardJPARepository boardJPARepository;
 
-    public Board 글조회(int boardId){
+    public Board 글조회(int boardId) {
         Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
         return board;
     }
 
     @Transactional
-    public void 글수정(int boardId, int sessionUserId, BoardRequest.UpdateDTO reqDTO){
+    public void 글수정(int boardId, int sessionUserId, BoardRequest.UpdateDTO reqDTO) {
 
         // 1. 조회 및 예외처리
         Board board = boardJPARepository.findById(boardId)
@@ -40,17 +40,17 @@ public class BoardService {
     } // 더티체킹
 
     @Transactional
-    public void 글쓰기(BoardRequest.SaveDTO reqDTO, User sessionUser){
+    public void 글쓰기(BoardRequest.SaveDTO reqDTO, User sessionUser) {
         boardJPARepository.save(reqDTO.toEntity(sessionUser));
     }
 
     @Transactional
-    public void 글삭제(int boardId, int sessionUserId){
+    public void 글삭제(int boardId, int sessionUserId) {
 
         Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
 
-        if(sessionUserId != board.getUser().getId()){
+        if (sessionUserId != board.getUser().getId()) {
             throw new Exception403("게시글을 삭제할 권한이 없습니다");
         }
 
@@ -67,14 +67,25 @@ public class BoardService {
         Board board = boardJPARepository.findByIdJoinUser(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
 
-        boolean isOwner = false;
-        if(sessionUser != null){
-            if(sessionUser.getId() == board.getUser().getId()){
-                isOwner = true;
+        boolean isBoardOwner = false;
+        if (sessionUser != null) {
+            if (sessionUser.getId() == board.getUser().getId()) {
+                isBoardOwner = true;
             }
         }
 
-        board.setOwner(isOwner);
+        board.setBoardOwner(isBoardOwner);
+
+        board.getReplies().forEach(reply -> {
+            boolean isReplyOwner = false;
+
+            if (sessionUser != null) {
+                if (reply.getUser().getId() == sessionUser.getId()) {
+                    isReplyOwner = true;
+                }
+            }
+            reply.setReplyOwner(isReplyOwner);
+        });
 
         return board;
     }
