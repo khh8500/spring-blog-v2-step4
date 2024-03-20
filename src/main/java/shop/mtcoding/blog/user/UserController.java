@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping("/api/users/{id}")
     public ResponseEntity<?> userinfo(@PathVariable Integer id){
         User user = userService.회원조회(id);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(new ApiUtil(user));
     }
 
     @PutMapping("api/users/{id}")
