@@ -22,7 +22,7 @@ public class BoardJPARepositoryTest {
     @Test
     public void orp_test(){
         // given
-        Board board = boardJPARepository.findById(4).get()
+        Board board = boardJPARepository.findById(4).get();
         board.getUser().getUsername();
 
         board.getReplies().forEach(reply -> {
@@ -32,7 +32,7 @@ public class BoardJPARepositoryTest {
         boardJPARepository.delete(board);
 
         // when
-        
+
 
         // then
     }
