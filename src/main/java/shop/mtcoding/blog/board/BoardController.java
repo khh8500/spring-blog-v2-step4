@@ -24,15 +24,15 @@ public class BoardController {
     // TODO : 글목록조회 API 필요 -> @GetMapping("/")
     @GetMapping("/")
     public ResponseEntity<?> main(){
-        List<Board> boardList = boardService.글목록조회();
-        return ResponseEntity.ok(new ApiUtil(boardList));
+        List<BoardResponse.MainDTO> respDTO = boardService.글목록조회();
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
     // TODO : 글상세보기 API 필요 -> @GetMapping("/api/boards/{id}/detail")
     @GetMapping("/api/boards/{id}/detail")
     public ResponseEntity<?> detail(@PathVariable Integer id){
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Board board = boardService.글상세보기(id, sessionUser);
-        return ResponseEntity.ok(new ApiUtil(board));
+        BoardResponse.DetailDTO reqDTO = boardService.글상세보기(id, sessionUser);
+        return ResponseEntity.ok(new ApiUtil(reqDTO));
     }
 
     // TODO : 글조회 API 필요 -> @GetMapping("/api/boards/{id}")
