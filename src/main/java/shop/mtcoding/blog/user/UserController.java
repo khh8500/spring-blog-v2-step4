@@ -23,8 +23,8 @@ public class UserController {
     // TODO: 회원정보 조회 API 필요 -> @GetMapping("/api/users/{id}")
     @GetMapping("/api/users/{id}")
     public ResponseEntity<?> userinfo(@PathVariable Integer id){
-        UserResponse.DTO reqDTO = userService.회원조회(id);
-        return ResponseEntity.ok(new ApiUtil(reqDTO));
+        UserResponse.DTO respDTO = userService.회원조회(id);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     @PutMapping("api/users/{id}")
@@ -32,7 +32,10 @@ public class UserController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         User newSessionUser = userService.회원수정(sessionUser.getId(), reqDTO);
         session.setAttribute("sessionUser", newSessionUser);
-        return ResponseEntity.ok(new ApiUtil(newSessionUser));
+
+        // DTO 생성위치 예외
+        UserResponse.DTO respDTO = new UserResponse.DTO(sessionUser);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     @PostMapping("/join")
