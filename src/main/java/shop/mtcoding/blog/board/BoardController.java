@@ -38,22 +38,22 @@ public class BoardController {
     // TODO : 글조회 API 필요 -> @GetMapping("/api/boards/{id}")
     @GetMapping("/api/boards/{id}")
     public ResponseEntity<?> findOne(@PathVariable Integer id){
-        Board board = boardService.글조회(id);
-        return ResponseEntity.ok(new ApiUtil(board));
+        BoardResponse.DTO respDTO = boardService.글조회(id);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     @PostMapping("/api/boards")
     public ResponseEntity<?> save(@RequestBody BoardRequest.SaveDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Board board = boardService.글쓰기(reqDTO, sessionUser);
-        return ResponseEntity.ok(new ApiUtil(board));
+        BoardResponse.DTO respDTO = boardService.글쓰기(reqDTO, sessionUser);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     @PutMapping("/api/boards/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody BoardRequest.UpdateDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Board board = boardService.글수정(id, sessionUser.getId(), reqDTO);
-        return ResponseEntity.ok(new ApiUtil(board));
+        BoardResponse.DTO respDTO = boardService.글수정(id, sessionUser.getId(), reqDTO);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
     @DeleteMapping("/api/boards/{id}")
